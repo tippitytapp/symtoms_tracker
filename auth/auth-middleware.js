@@ -73,10 +73,37 @@ function verifyToken(req, res, next){
     }
 }
 
+// verify the users identity before allowing modifications to user
+function iAmMe(req, res, next){
+    const i = req.jwt.sub
+    const me = req.params.id
+    if(i == me){
+        next();
+    }else {
+        res.status(401)
+    }
+}
+
+// verify the users identity before allowing adding or modifying a profile
+function weAreWe(req, res, next){
+    const we = req.params.id
+    const We = req.jwt.sub
+    if(we == We){
+        next()
+    } else {
+        res.status(401).json({
+            message: "invalid credentials"
+        })
+    }
+}
+
+
 module.exports={
     regObjIsValid,
     passHash,
     loginObjIsValid,
     createToken,
-    verifyToken
+    verifyToken,
+    iAmMe,
+    weAreWe
 }

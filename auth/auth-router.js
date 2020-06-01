@@ -1,12 +1,13 @@
 const router = require('express').Router();
 const bcryptjs = require('bcryptjs');
 
-const {regObjIsValid, passHash, loginObjIsValid, createToken, verifyToken} = require('./auth-middleware.js')
+const {regObjIsValid, passHash, loginObjIsValid, createToken} = require('./auth-middleware.js')
 const Users = require('../users/users-model.js')
 
 router.post('/register', regObjIsValid, (req, res) => {
     const user = req.body;
     const newUser = passHash(user)
+    const email = user.email
     Users.findUserBy({email})
         .then(user => {
             if(user.length > 0){
@@ -31,7 +32,8 @@ router.post('/register', regObjIsValid, (req, res) => {
 })
 
 router.post('/login', (req, res) => {
-    const [email, password] = req.body;
+    console.log(req)
+    const {email, password} = req.body;
     if(loginObjIsValid(req.body)){
         Users.findUserBy({email})
             .then(([user]) => {
