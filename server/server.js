@@ -1,0 +1,18 @@
+const express = require('express');
+const cors = require('cors')
+const helmet = require('helmet')
+const AuthRouter = require('../auth/auth-router.js')
+const server = express();
+server.use(helmet())
+server.use(cors())
+server.use(express.json())
+
+server.use('/auth', AuthRouter)
+
+server.get('/', (req, res) => {
+    res.status().json({
+        api: "API is online"
+    })
+})
+
+module.exports = server;
