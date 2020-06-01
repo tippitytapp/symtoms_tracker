@@ -8,7 +8,9 @@ router.use(verifyToken)
 router.use(weAreWe)
 
 router.post('/:id/profile', (req, res) => {
-    const profile = req.body
+    const prof = req.body
+    const userId = req.params.id
+    const profile={birthday: prof.birthday, conditions: prof.conditions, hospital: prof.hospital, nok_name: prof.nok_name, nok_phone: prof.nok_phone , user_id: userId}
     Profiles.addUserProfile(profile)
         .then(respo => {
             res.status(201).json({

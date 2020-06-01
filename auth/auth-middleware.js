@@ -87,9 +87,11 @@ function iAmMe(req, res, next){
 // verify the users identity before allowing adding or modifying a profile
 function weAreWe(req, res, next){
     const we = req.params.id
+    console.log('we', req)
     const We = req.jwt.sub
-    if(we == We){
-        next()
+    console.log('We', We)
+    if(req.params.id == req.jwt.sub){
+        next();
     } else {
         res.status(401).json({
             message: "invalid credentials"
